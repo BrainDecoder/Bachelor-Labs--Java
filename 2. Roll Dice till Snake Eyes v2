@@ -1,0 +1,57 @@
+package week2;
+
+import textio.TextIO;
+
+public class Week2DiscussionV2 {
+	public static void main(String[] args){
+
+		//declarations
+		int dice1;
+		int dice2;
+		int dCount;
+		boolean onceAgain = false;
+		int[] resultsList = new int[100]; 
+		int rListCount;
+		int sum = 0;
+		int average;		
+		
+		//intro statement
+		System.out.println("The program creates a statistic on how many times one should roll a pair of dice before snake eyes come up.");
+		System.out.println("Test it as many times as you want (max 100). More you test, preciser gets the stats!");
+		System.out.println();
+		System.out.println("First test is done for you:");
+		
+		//running the tests
+		for (rListCount=0; rListCount<100;) {	//LOOP 1
+			dCount = 0;
+			do {	//LOOP 2
+				dCount++;
+				dice1 = (int)(Math.random()*6)+1;	
+				dice2 = (int)(Math.random()*6)+1;
+				if (dice1 == 1 && dice2 == 1) {
+					System.out.println("Snake eyes have come up after " + dCount + " rolls.");
+					resultsList[rListCount] = dCount;
+					rListCount++;
+					break;
+				} else continue;
+			} while (true);
+			
+			System.out.print("Do you want to test again? (y/n) ");
+			onceAgain = TextIO.getlnBoolean();
+			if (onceAgain == false) break;
+		}
+		
+		int i=0;
+		while (i<rListCount){	//LOOP 3
+			sum = sum + resultsList[i];
+			i++;
+		}
+		
+		System.out.println();
+		average = sum / rListCount;
+		
+		//printing results
+		System.out.println("You have made " + rListCount + " test(s).");
+		System.out.println("On average, one should roll " + average + " times to come up with snake eyes!");
+			
+}}
