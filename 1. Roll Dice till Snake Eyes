@@ -1,0 +1,54 @@
+package week2;
+
+import textio.TextIO;
+
+public class Week2DiscussionV1 {
+	public static void main(String[] args){
+
+		//declarations
+		int dice1;
+		int dice2;
+		int dCount;
+		boolean onceAgain = false;
+		int[] resultsList = new int[100]; 
+		int rListCount = 0;
+		int sum = 0;
+		int average;	//int because it's average of times to roll the dice, so one cannot roll the dice 1.5 times
+		
+		//intro statement
+		System.out.println("The program creates a statistic on how many times one should roll a pair of dice before snake eyes come up.");
+		System.out.println("Test it as many times as you want (max 100). More you test, preciser gets the stats!");
+		System.out.println();
+		System.out.println("First test is done for you:");
+		
+		//running the tests
+		do {	//LOOP 1 - roll once at least
+			dCount = 0;
+			while (true){	//LOOP 2 - rolling the pair of dice until 1:1 comes up
+				dCount++;	//counts times rolled
+				dice1 = (int)(Math.random()*6)+1;	//creates random numbers from 1 to 6
+				dice2 = (int)(Math.random()*6)+1;
+				if (dice1 == 1 && dice2 == 1) {
+					System.out.println("Snake eyes have come up after " + dCount + " rolls.");
+					resultsList[rListCount] = dCount;	// introduce the count into the array
+					rListCount++;	//focus on next cell in the array
+					break;	//breaks the rolling loop if 1:1 comes up
+				} else continue;	//rolls again if not 1:1
+			}
+			
+			System.out.print("Do you want to test again? (y/n) ");
+			onceAgain = TextIO.getlnBoolean();
+		} while (onceAgain);	//runs the do-while loop again if positive answer
+		
+		for (int i=0; i<rListCount; i++){	//LOOP 3 - traversing the array to calculate the sum
+			sum = sum + resultsList[i];
+		}
+		
+		System.out.println();
+		average = sum / rListCount;		//calculating the average
+		
+		//printing results
+		System.out.println("You have made " + rListCount + " test(s).");
+		System.out.println("On average, one should roll " + average + " times to come up with snake eyes!");
+			
+}}
