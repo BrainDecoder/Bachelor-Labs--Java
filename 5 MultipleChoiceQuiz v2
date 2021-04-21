@@ -1,0 +1,225 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class MultipleChoiceQuestion extends Question {
+	
+	public MultipleChoiceQuestion (String query, String a, String b, String c, String d, String e, String answer ) {
+		
+		super(query);
+		
+		addChoice("A",a);
+		addChoice("B",b);
+		addChoice("C",c);
+		addChoice("D",d);
+		addChoice("E",e);
+		
+		initQuestionDialog();
+		
+		correctAnswer = answer.toUpperCase();
+
+	}
+	
+	void addChoice(String name, String label) {
+		JPanel choice = new JPanel(new BorderLayout());
+		JButton button = new JButton(name);
+		button.addActionListener(question);
+		choice.add(button,BorderLayout.WEST);
+		choice.add(new JLabel(label+"		",JLabel.LEFT),BorderLayout.CENTER);
+		question.add(choice);
+	}
+
+}
+
+______
+
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+public class TrueFalseQuestion extends Question {
+	
+	public TrueFalseQuestion (String question, String answer) {
+		
+		super(question);
+		
+		JPanel buttons = new JPanel();
+		
+		addButton(buttons,"TRUE");
+		addButton(buttons,"FALSE");
+		this.question.add(buttons);
+		
+		initQuestionDialog();
+
+		answer = answer.toUpperCase();
+		 if (answer.equals("T") || answer.equals("TRUE") ||	answer.equals("Y") || answer.equals("YES")) correctAnswer = "TRUE"; 
+		 if (answer.equals("F") || answer.equals("FALSE") || answer.equals("N") || answer.equals("NO")) correctAnswer = "FALSE";
+		
+	}
+	
+	void addButton(JPanel buttons, String label) {
+		
+		JButton button = new JButton(label);
+		button.addActionListener(question);
+		buttons.add(button);
+	
+	}
+
+}
+
+_____
+
+
+import java.awt.*;
+import javax.swing.*;
+
+public abstract class Question {
+	
+	static int nQuestions = 0;
+	static int nCorrect = 0;
+	
+	QuestionDialog question;
+	String correctAnswer;
+	
+	Question(String question) {
+		this.question = new QuestionDialog();
+		this.question.setLayout(new GridLayout(0,1));
+		this.question.add(new JLabel("   "+question+"    ",JLabel.CENTER));
+		
+		
+	}
+	
+		String ask() {
+			question.setVisible(true);
+			return question.answer;
+		}
+	
+	void check() {
+		 
+		 nQuestions++;
+		 
+		 String answer = ask();
+		 if (answer.equals(correctAnswer)) {
+			 JOptionPane.showMessageDialog(null,"Correct!");
+			 nCorrect++;
+		 } else {
+			 JOptionPane.showMessageDialog(null,"Incorrect. The correct answer is " + correctAnswer);
+		 }
+	 }
+	
+	static void showResults() {
+		JOptionPane.showMessageDialog(null, nCorrect + " correct out of " + nQuestions + " questions!");
+	}
+	
+	void initQuestionDialog() {
+		this.question.setModal(true);
+		this.question.pack();
+		this.question.setLocationRelativeTo(null);
+	}
+
+}
+
+______
+
+
+import java.awt.event.*;
+import javax.swing.*;
+
+public class QuestionDialog extends JDialog implements ActionListener {
+		
+		String answer;
+		
+		public void actionPerformed(ActionEvent e) {
+			answer = e.getActionCommand(); 
+			dispose(); 
+		}
+		
+}
+
+_____
+
+
+
+public class Quiz {
+	
+	public static void main(String[] args) {
+		
+		Question question1 = new MultipleChoiceQuestion(
+				"Who is the reachest man in the world?",
+				"Bernard Arnault (Louis Vuitton)",
+				"Bill Gates (Microsoft)",
+				"Warren Buffett (Berkshire Hathaway)",
+				"Jeff Bezos (Amazon)",
+				"Larry Ellison (Oracle)",
+				"D");
+		question1.check();
+		
+		Question question2 = new MultipleChoiceQuestion(
+				"What is the fastest car in the world?",
+				"SSC Tuatara",
+				"Bugatti Chiron Super Sport 300+",
+				"Koenigsegg Agera RS",
+				"Hennessey Venom F5",
+				"Rimac Concept Two",
+				"B");
+		question2.check();
+		
+		Question question3 = new MultipleChoiceQuestion(
+				"Who is the highest-paid actor in 2019 (according to Forbes)?",
+				"Robert Downey Jr.",
+				"Chris Hemsworth",
+				"Bradley Cooper",
+				"Jackie Chan",
+				"Dwayne Johnson",
+				"E");
+		question3.check();
+		
+		Question question4 = new MultipleChoiceQuestion(
+				"Which is the largest city in the world?",
+				"Delhi",
+				"Seoul",
+				"Jakarta",
+				"Manila",
+				"Tokyo",
+				"E");
+		question4.check();
+		
+		Question question5 = new MultipleChoiceQuestion(
+				"Which country has the tallest people (on average) in the world?",
+				"Estonia",
+				"The Netherlands",
+				"Denmark",
+				"Czech Republic",
+				"Latvia",
+				"B");
+		question5.check();
+		
+		Question question6 = new TrueFalseQuestion(
+				"USA is the largest country in the world.",
+				"FALSE");
+		question6.check();
+		
+		Question question7 = new TrueFalseQuestion(
+				"Cheetah is the fastest animal on Earth.",
+				"TRUE");
+		question7.check();
+		
+		Question question8 = new TrueFalseQuestion(
+				"Chimborazo is the highest mountain on Earth (when measured from the Earth's centre).",
+				"TRUE");
+		question8.check();
+		
+		Question question9 = new TrueFalseQuestion(
+				"The lowest temperature ever recorded at ground level is at the McMurdo Station, Antarctica.",
+				"FALSE");
+		question9.check();
+	
+		Question question10 = new TrueFalseQuestion(
+				"The highest registered air temperature on Earth was in the Death Valley desert, US.",
+				"TRUE");
+		question10.check();
+		
+		
+		Question.showResults();
+
+	}
+}
