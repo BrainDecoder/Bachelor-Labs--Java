@@ -1,0 +1,82 @@
+package week5;
+
+public class Subclass1 extends Superclass{ //shows how this works
+	
+	String size = "sub1 size";
+	
+	Subclass1(String size) {
+		System.out.println ();
+    	System.out.println ("This is subclass1 constructor");
+    	System.out.println ("It prints the received parameter - " + size + ",");
+    	System.out.println ("as well as the class instance variable - " + this.size + ".");
+ 	}
+
+	Subclass1() {
+		this("parameter inserted by this()");
+    	System.out.println("The strings above were created by the second Subclass1 constructor, which called the first constructor using this();");    	
+    }
+}
+
+_____
+
+
+package week5;
+
+public class Subclass2 extends Superclass { //shows how super works
+	
+	String size = "sub2 size";
+	
+	Subclass2() {
+    	super(); // calls the superclass constructor
+    	System.out.println ("The string above is the superclass constructor string printed by the subclass2 constructor using super();");
+	}
+
+    void method() {
+    	System.out.println();
+    	System.out.println("This is subclass method"); 
+    	System.out.println("It prints subclass var. size - '" + size + "', and supeclass var. size - '" + super.size + "' using super.size"); 
+    	System.out.println("It also calls the superclass method (below) using super.method():"); 
+    	super.method();
+    }
+
+}
+
+_____
+
+
+package week5;
+
+public abstract class Superclass {
+	
+	String size = "super size";
+	
+    Superclass () {
+    	
+    	System.out.println();
+    	System.out.println ("This is superclass constructor string, it appears every time an object is created.");
+    };
+    
+    void method() {
+    	System.out.println("This is superclass method"); 
+    }
+}
+
+_____
+
+
+package week5;
+
+public class Mainclass {
+	
+	public static void main(String[] args) {
+		
+		Subclass1 object1 = new Subclass1("parameter inserted by Main class");
+		
+		Subclass1 object11 = new Subclass1();
+        
+        Subclass2 object2 = new Subclass2();
+        object2.method();
+        
+    }
+
+}
